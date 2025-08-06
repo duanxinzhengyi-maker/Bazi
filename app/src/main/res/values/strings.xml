@@ -1,0 +1,54 @@
+<resources>
+    <string name="app_name">八字工具</string>
+    
+    <!-- 通用 -->
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
+    <string name="save">保存</string>
+    <string name="delete">删除</string>
+    <string name="edit">编辑</string>
+    <string name="add">新增</string>
+    <string name="search">搜索</string>
+    <string name="back">返回</string>
+    <string name="share">分享</string>
+    
+    <!-- 档案相关 -->
+    <string name="profile_list">档案列表</string>
+    <string name="profile_edit">档案编辑</string>
+    <string name="profile_add">新增档案</string>
+    <string name="nickname">昵称</string>
+    <string name="gender">性别</string>
+    <string name="category">分类</string>
+    <string name="birth_date">出生日期</string>
+    <string name="birth_time">出生时间</string>
+    <string name="birth_place">出生地</string>
+    <string name="current_place">现居地</string>
+    <string name="notes">备注</string>
+    <string name="daylight_saving">夏令时</string>
+    
+    <!-- 八字相关 -->
+    <string name="bazi_chart">八字排盘</string>
+    <string name="sizhu">四柱</string>
+    <string name="tiangan">天干</string>
+    <string name="dizhi">地支</string>
+    <string name="canggan">藏干</string>
+    <string name="nayin">纳音</string>
+    <string name="dayun">大运</string>
+    <string name="liunian">流年</string>
+    <string name="liuyue">流月</string>
+    <string name="solar_time">真太阳时</string>
+    
+    <!-- 错误信息 -->
+    <string name="error_nickname_empty">昵称不能为空</string>
+    <string name="error_birth_date_invalid">出生日期格式不正确</string>
+    <string name="error_birth_time_invalid">出生时间格式不正确</string>
+    <string name="error_birth_place_empty">出生地不能为空</string>
+    <string name="error_calculation_failed">排盘计算失败</string>
+    
+    <!-- 提示信息 -->
+    <string name="hint_nickname">请输入昵称</string>
+    <string name="hint_birth_date">2000-01-01</string>
+    <string name="hint_birth_time">08:30</string>
+    <string name="hint_birth_place">请选择出生地区</string>
+    <string name="hint_notes">可选填写</string>
+</resources>
