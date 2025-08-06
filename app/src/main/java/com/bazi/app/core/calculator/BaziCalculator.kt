@@ -52,7 +52,7 @@ object BaziCalculator {
         val hour = solarTime.hour
         
         // 计算年柱
-        val yearPillar = calculateYearPillar(year)
+        val yearPillar = calculateYearPillar(year, solarTime)
         
         // 计算月柱
         val monthPillar = calculateMonthPillar(year, month, yearPillar.heavenlyStem)
@@ -68,11 +68,22 @@ object BaziCalculator {
     
     /**
      * 计算年柱
+     * 使用精确的立春节气来确定年柱
      */
-    private fun calculateYearPillar(year: Int): Pillar {
-        // 简化计算，实际应该考虑立春节气
-        val stemIndex = (year - 4) % 10
-        val branchIndex = (year - 4) % 12
+    private fun calculateYearPillar(year: Int, birthTime: LocalDateTime = LocalDateTime(year, 1, 1, 0, 0)): Pillar {
+        // 获取当年和前一年的立春日期
+        val currentYearLiChun = SolarTermCalculator.getLichunDate(year)
+        val previousYearLiChun = SolarTermCalculator.getLichunDate(year - 1)
+        
+        // 确定实际的干支年份
+        val actualYear = when {
+            currentYearLiChun != null && birthTime >= currentYearLiChun -> year
+            previousYearLiChun != null && birthTime < currentYearLiChun ?: LocalDateTime(year, 2, 4, 0, 0) -> year - 1
+            else -> year // 如果无法获取立春日期，使用公历年份
+        }
+        
+        val stemIndex = (actualYear - 4) % 10
+        val branchIndex = (actualYear - 4) % 12
         
         val heavenlyStem = HeavenlyStem.values()[stemIndex]
         val earthlyBranch = EarthlyBranch.values()[branchIndex]
@@ -270,12 +281,17 @@ object BaziCalculator {
     
     /**
      * 计算流月
+     * 使用精确的节气计算来确定月份
      */
     private fun calculateLiuyue(dayStem: HeavenlyStem, year: Int): List<Liuyue> {
         val liuyues = mutableListOf<Liuyue>()
         val currentMonth = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).monthNumber
         
-        val solarTerms = arrayOf(
+        // 获取当年的所有节气
+        val yearSolarTerms = SolarTermCalculator.getSolarTermsForYear(year)
+        
+        // 月份对应的节气（以节气为月份分界）
+        val monthSolarTerms = arrayOf(
             "立春", "惊蛰", "清明", "立夏", "芒种", "小暑",
             "立秋", "白露", "寒露", "立冬", "大雪", "小寒"
         )
@@ -284,10 +300,17 @@ object BaziCalculator {
             val stemIndex = (dayStem.index * 2 + month - 1) % 10
             val branchIndex = (month + 1) % 12
             
+            // 获取对应的节气名称和日期
+            val solarTermName = monthSolarTerms[month - 1]
+            val solarTermDate = yearSolarTerms[solarTermName]
+            val gregorianDate = solarTermDate?.let { 
+                "${it.monthNumber}月${it.dayOfMonth}日" 
+            } ?: "${month}月"
+            
             val liuyue = Liuyue(
                 month = month,
-                solarTerm = solarTerms[month - 1],
-                gregorianDate = "${month}月",
+                solarTerm = solarTermName,
+                gregorianDate = gregorianDate,
                 heavenlyStem = HeavenlyStem.values()[stemIndex],
                 earthlyBranch = EarthlyBranch.values()[branchIndex],
                 tenGod = TenGod.BI_JIAN, // 简化处理

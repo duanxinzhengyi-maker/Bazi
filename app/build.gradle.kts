@@ -65,6 +65,9 @@ dependencies {
     // DateTime
     implementation(libs.kotlinx.datetime)
     
+    // Time4A - Advanced Chinese Calendar with Solar Terms
+    implementation("net.time4j:time4j-android:4.8-2021a")
+    
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
